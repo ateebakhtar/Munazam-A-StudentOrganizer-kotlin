@@ -1,415 +1,389 @@
-package com.example.munazam_astudentorganizer.Adapter;
+package com.example.munazam_astudentorganizer.Adapter
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
+import com.example.munazam_astudentorganizer.Adapter.TunerAdapter.TunerAH
+import com.example.munazam_astudentorganizer.R
+import java.text.DecimalFormat
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
+class TunerAdapter(
+    movieList: List<Int>,
+    expandede: MutableList<Boolean>,
+    context: Context,
+    flag: Int
+) : RecyclerView.Adapter<TunerAH>() {
+    var expandede: MutableList<Boolean>
+    var sizer: List<Int>
+    var cours: Array<TextView?> = arrayOfNulls(7)
 
-import com.example.munazam_astudentorganizer.DataModels.TunerModel;
-import com.example.munazam_astudentorganizer.R;
+    var flag = 0
+    var value: DoubleArray = DoubleArray(60)
+    var newval: DoubleArray? = DoubleArray(60)
 
-import java.text.DecimalFormat;
-import java.util.List;
-
-public class TunerAdapter extends RecyclerView.Adapter<TunerAdapter.TunerAH>
-{
-    private static final String TAG = "MovieAdapter";
-    List<Boolean> expandede;
-    List<Integer> sizer;
-    static int flag = 0;
-    TextView[] cours = new TextView[7];
-    public static double[] val = new double[60];
-
-    public static void setNewval(double[] newval) {
-        TunerAdapter.newval = newval;
+    var cx: Context
+    fun setflag(i: Int) {
+        flag = i
     }
 
-    public static double[] newval = new double[60];
+    init {
+        this.flag = flag
+        this.expandede = expandede
+        cx = context
+        this.sizer = movieList
 
-
-    public double[] getVal()
-    {
-        return val;
-    }
-
-
-    Context cx;
-    public void setflag(int i)
-    {
-        flag = i;
-    }
-    public TunerAdapter(List<Integer> movieList,List<Boolean> expandede,Context context,int flag) {
-
-        this.flag = flag;
-        this.expandede = expandede;
-        cx = context;
-        this.sizer = movieList;
-
-        for(int i=0;i<60;i++)
-        {
-            newval[i] = -1;
-            val[i] = -1;
+        for (i in 0..59) {
+            newval?.set(i, -1.0)
+            value[i] = -1.0
         }
     }
-    @NonNull
-    @Override
-    public TunerAH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tuner_template, parent, false);
-        return new TunerAH(view);
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TunerAH {
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.tuner_template, parent, false)
+        return TunerAH(view)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull final TunerAH holder, int position) {
+    override fun onBindViewHolder(holder: TunerAH, position: Int) {
+        holder.semester.text = "Semester: " + sizer[position]
 
-        holder.semester.setText("Semester: "+sizer.get(position));
+        val obj = arrayOf<String?>(
+            "0.00",
+            "1.00",
+            "1.33",
+            "1.67",
+            "2.00",
+            "2.33",
+            "2.67",
+            "3.00",
+            "3.33",
+            "3.67",
+            "4.00"
+        )
 
-        final String[] obj = {"0.00","1.00","1.33","1.67","2.00","2.33","2.67","3.00","3.33","3.67","4.00"};
+
+        when (sizer[position]) {
+            1 -> {
+                val courses = cx.resources.getStringArray(R.array.s1)
+                var i = 0
+                while (i < courses.size) {
+                    cours[i]!!.text = courses[i]
+                    i++
+                }
+            }
+
+            2 -> {
+                val courses1 = cx.resources.getStringArray(R.array.s2)
+                var i = 0
+                while (i < courses1.size) {
+                    cours[i]!!.text = courses1[i]
+                    i++
+                }
+            }
+
+            3 -> {
+                val courses2 = cx.resources.getStringArray(R.array.s3)
+                var i = 0
+                while (i < courses2.size) {
+                    //System.out.printf(courses[i]);
+                    cours[i]!!.text = courses2[i]
+                    i++
+                }
+            }
+
+            4 -> {
+                val courses3 = cx.resources.getStringArray(R.array.s4)
+                var i = 0
+                while (i < courses3.size) {
+                    //System.out.printf(courses[i]);
+                    cours[i]!!.text = courses3[i]
+                    i++
+                }
+            }
+
+            5 -> {
+                val courses4 = cx.resources.getStringArray(R.array.s5)
+                var i = 0
+                while (i < courses4.size) {
+                    //System.out.printf(courses[i]);
+                    cours[i]!!.text = courses4[i]
+                    i++
+                }
+            }
+
+            6 -> {
+                val courses5 = cx.resources.getStringArray(R.array.s6)
+                var i = 0
+                while (i < courses5.size) {
+                    //System.out.printf(courses[i]);
+                    cours[i]!!.text = courses5[i]
+                    i++
+                }
+            }
+
+            7 -> {
+                val courses6 = cx.resources.getStringArray(R.array.s7)
+                var i = 0
+                while (i < courses6.size) {
+                    //System.out.printf(courses[i]);
+                    cours[i]!!.text = courses6[i]
+                    i++
+                }
+            }
+
+            8 -> {
+                val courses7 = cx.resources.getStringArray(R.array.s8)
+                var i = 0
+                while (i < courses7.size) {
+                    System.out.printf(courses7[i])
+                    cours[i]!!.text = courses7[i]
+                    i++
+                }
+            }
+        }
+        val aa0: ArrayAdapter<*> = ArrayAdapter<Any?>(cx, android.R.layout.simple_spinner_item, obj)
+        val aa1: ArrayAdapter<*> = ArrayAdapter<Any?>(cx, android.R.layout.simple_spinner_item, obj)
+        val aa2: ArrayAdapter<*> = ArrayAdapter<Any?>(cx, android.R.layout.simple_spinner_item, obj)
+        val aa3: ArrayAdapter<*> = ArrayAdapter<Any?>(cx, android.R.layout.simple_spinner_item, obj)
+        val aa4: ArrayAdapter<*> = ArrayAdapter<Any?>(cx, android.R.layout.simple_spinner_item, obj)
+        val aa5: ArrayAdapter<*> = ArrayAdapter<Any?>(cx, android.R.layout.simple_spinner_item, obj)
+        val aa6: ArrayAdapter<*> = ArrayAdapter<Any?>(cx, android.R.layout.simple_spinner_item, obj)
+        val aa: ArrayAdapter<*> = ArrayAdapter<Any?>(cx, android.R.layout.simple_spinner_item, obj)
+
+        val temp = position
+
+        holder.spins[0]!!.adapter = aa0
+        holder.spins[1]!!.adapter = aa1
+        holder.spins[2]!!.adapter = aa2
+        holder.spins[3]!!.adapter = aa3
+        holder.spins[4]!!.adapter = aa4
+        holder.spins[5]!!.adapter = aa5
+        holder.spins[6]!!.adapter = aa6
 
 
-        switch (sizer.get(position))
-        {
-            case 1:
-                String[] courses = cx.getResources().getStringArray(R.array.s1);
-                for(int i=0;i<courses.length;i++)
-                {
-                    cours[i].setText(courses[i]);
-                }
-                break;
-            case 2:
-                String[] courses1 = cx.getResources().getStringArray(R.array.s2);
-                for(int i=0;i<courses1.length;i++)
-                {
-                    cours[i].setText(courses1[i]);
-                }
-                break;
-            case 3:
-                String[] courses2 = cx.getResources().getStringArray(R.array.s3);
-                for(int i=0;i<courses2.length;i++)
-                {
-                    //System.out.printf(courses[i]);
-                    cours[i].setText(courses2[i]);
-                }
-                break;
-            case 4:
-                String[] courses3 = cx.getResources().getStringArray(R.array.s4);
-                for(int i=0;i<courses3.length;i++)
-                {
-                    //System.out.printf(courses[i]);
-                    cours[i].setText(courses3[i]);
-                }
-                break;
-            case 5:
-                String[] courses4 = cx.getResources().getStringArray(R.array.s5);
-                for(int i=0;i<courses4.length;i++)
-                {
-                    //System.out.printf(courses[i]);
-                    cours[i].setText(courses4[i]);
-                }
-                break;
-            case 6:
-                String[] courses5 = cx.getResources().getStringArray(R.array.s6);
-                for(int i=0;i<courses5.length;i++)
-                {
-                    //System.out.printf(courses[i]);
-                    cours[i].setText(courses5[i]);
-                }
-                break;
-            case 7:
-                String[] courses6 = cx.getResources().getStringArray(R.array.s7);
-                for(int i=0;i<courses6.length;i++)
-                {
-                    //System.out.printf(courses[i]);
-                    cours[i].setText(courses6[i]);
-                }
-                break;
-            case 8:
-                String[] courses7 = cx.getResources().getStringArray(R.array.s8);
-                for(int i=0;i<courses7.length;i++)
-                {
-                    System.out.printf(courses7[i]);
-                    cours[i].setText(courses7[i]);
-                }
-                break;
+        val isExpanded = expandede[position]
+        holder.expandableLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        val df = DecimalFormat("0.00")
+
+        println(flag.toString() + " flagg")
+        if (flag > 0) {
+            println("Flagging the way" + (newval?.get(7 * temp) ?: 0.0))
+
+            holder.grades[0]!!.text = "" + df.format(newval?.get(7 * temp) ?: 0.0)
+            holder.grades[1]!!.text = "" + df.format(newval?.get(7 * temp + 1) ?: 0.0)
+            holder.grades[2]!!.text = "" + df.format(newval?.get(7 * temp + 2) ?: 0.0)
+            holder.grades[3]!!.text = "" + df.format(newval?.get(7 * temp + 3) ?: 0.0)
+            holder.grades[4]!!.text = "" + df.format(newval?.get(7 * temp + 4) ?: 0.0)
+            holder.grades[5]!!.text = "" + df.format(newval?.get(7 * temp + 5) ?: 0.0)
+            holder.grades[6]!!.text = "" + df.format(newval?.get(7 * temp + 6) ?: 0.0)
+
+            flag--
+            return
         }
 
 
-        ArrayAdapter aa0 = new ArrayAdapter(cx,android.R.layout.simple_spinner_item,obj);
-        ArrayAdapter aa1 = new ArrayAdapter(cx,android.R.layout.simple_spinner_item,obj);
-        ArrayAdapter aa2 = new ArrayAdapter(cx,android.R.layout.simple_spinner_item,obj);
-        ArrayAdapter aa3 = new ArrayAdapter(cx,android.R.layout.simple_spinner_item,obj);
-        ArrayAdapter aa4 = new ArrayAdapter(cx,android.R.layout.simple_spinner_item,obj);
-        ArrayAdapter aa5 = new ArrayAdapter(cx,android.R.layout.simple_spinner_item,obj);
-        ArrayAdapter aa6 = new ArrayAdapter(cx,android.R.layout.simple_spinner_item,obj);
-        ArrayAdapter aa = new ArrayAdapter(cx,android.R.layout.simple_spinner_item,obj);
 
-        final int temp = position;
+        holder.spins[0]!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                println(temp)
 
-        holder.spins[0].setAdapter(aa0);
-        holder.spins[1].setAdapter(aa1);
-        holder.spins[2].setAdapter(aa2);
-        holder.spins[3].setAdapter(aa3);
-        holder.spins[4].setAdapter(aa4);
-        holder.spins[5].setAdapter(aa5);
-        holder.spins[6].setAdapter(aa6);
+                value[7 * temp] = obj[position]!!.toDouble()
+                holder.grades[0]!!.text = obj[position]
+            }
 
-
-
-
-        boolean isExpanded = expandede.get(position);
-        holder.expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        DecimalFormat df = new DecimalFormat("0.00");
-
-        System.out.println(flag+" flagg");
-        if(flag > 0)
-        {
-            System.out.println("Flagging the way"+newval[7*temp]);
-
-            holder.grades[0].setText(""+df.format(newval[7*temp]));
-            holder.grades[1].setText(""+df.format(newval[7*temp+1]));
-            holder.grades[2].setText(""+df.format(newval[7*temp+2]));
-            holder.grades[3].setText(""+df.format(newval[7*temp+3]));
-            holder.grades[4].setText(""+df.format(newval[7*temp+4]));
-            holder.grades[5].setText(""+df.format(newval[7*temp+5]));
-            holder.grades[6].setText(""+df.format(newval[7*temp+6]));
-
-            flag--;
-            return;
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // can leave this empty
+            }
         }
 
-
-
-        holder.spins[0].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                System.out.println(temp);
-
-                val[7*temp] = Double.parseDouble(obj[position]);
-                holder.grades[0].setText(obj[position]);
+        holder.spins[1]!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                value[7 * temp + 1] = obj[position]!!.toDouble()
+                holder.grades[1]!!.text = "" + obj[position]
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
                 // can leave this empty
             }
-        });
+        }
 
-        holder.spins[1].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                val[7*temp+1] = Double.parseDouble(obj[position]);
-                holder.grades[1].setText(""+obj[position]);
+        holder.spins[2]!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                value[7 * temp + 2] = obj[position]!!.toDouble()
+                holder.grades[2]!!.text = obj[position]
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
                 // can leave this empty
             }
-        });
+        }
 
-        holder.spins[2].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                val[7*temp+2] = Double.parseDouble(obj[position]);
-                holder.grades[2].setText(obj[position]);
+        holder.spins[3]!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                value[7 * temp + 3] = obj[position]!!.toDouble()
+                holder.grades[3]!!.text = obj[position]
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
                 // can leave this empty
             }
-        });
+        }
 
-        holder.spins[3].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                val[7*temp+3] = Double.parseDouble(obj[position]);
-                holder.grades[3].setText(obj[position]);
+        holder.spins[4]!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                value[7 * temp + 4] = obj[position]!!.toDouble()
+                holder.grades[4]!!.text = obj[position]
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
                 // can leave this empty
             }
-        });
+        }
 
-        holder.spins[4].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                val[7*temp+4] = Double.parseDouble(obj[position]);
-                holder.grades[4].setText(obj[position]);
+        holder.spins[5]!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                value[7 * temp + 5] = obj[position]!!.toDouble()
+                holder.grades[5]!!.text = obj[position]
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
                 // can leave this empty
             }
-        });
+        }
 
-        holder.spins[5].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                val[7*temp+5] = Double.parseDouble(obj[position]);
-                holder.grades[5].setText(obj[position]);
+        holder.spins[6]!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                value[7 * temp + 6] = obj[position]!!.toDouble()
+                holder.grades[6]!!.text = obj[position]
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
                 // can leave this empty
             }
-        });
-
-        holder.spins[6].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                val[7*temp+6] = Double.parseDouble(obj[position]);
-                holder.grades[6].setText(obj[position]);
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-                // can leave this empty
-            }
-        });
-
-
-
-
-
-
-
+        }
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position;
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
-    @Override
-    public int getItemCount() {
-        return sizer.size();
+    override fun getItemCount(): Int {
+        return sizer.size
     }
 
-    class TunerAH extends RecyclerView.ViewHolder {
+    inner class TunerAH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var x: Spinner? = null
 
-        private static final String TAG = "TunerAH";
-
-        Spinner x;
-
-        TextView cgpa;
-        TextView semester;
-        Button calculategpa;
-        TextView[] grades = new TextView[7];
-        Spinner[] spins = new Spinner[7];
-
-
+        var cgpa: TextView = itemView.findViewById(R.id.textView28)
+        var semester: TextView = itemView.findViewById(R.id.textView25)
+        var calculategpa: Button = itemView.findViewById(R.id.button20)
+        var grades: Array<TextView?> = arrayOfNulls(7)
+        var spins: Array<Spinner?> = arrayOfNulls(7)
 
 
         //TextView[] cours = new TextView[7];
+        var expandableLayout: ConstraintLayout = itemView.findViewById(R.id.constraintLayout3)
 
 
-        ConstraintLayout expandableLayout;
+        init {
+            cours[0] = itemView.findViewById(R.id.textView44)
+            cours[1] = itemView.findViewById(R.id.textView31)
+            cours[2] = itemView.findViewById(R.id.textView34)
+            cours[3] = itemView.findViewById(R.id.textView35)
+            cours[4] = itemView.findViewById(R.id.textView36)
+            cours[5] = itemView.findViewById(R.id.textView33)
+            cours[6] = itemView.findViewById(R.id.textView32)
 
+            spins[0] = itemView.findViewById(R.id.spinner5)
+            spins[1] = itemView.findViewById(R.id.spinner6)
+            spins[2] = itemView.findViewById(R.id.spinner7)
+            spins[3] = itemView.findViewById(R.id.spinner8)
+            spins[4] = itemView.findViewById(R.id.spinner9)
+            spins[5] = itemView.findViewById(R.id.spinner10)
+            spins[6] = itemView.findViewById(R.id.spinner11)
 
-        public TunerAH(@NonNull final View itemView) {
-            super(itemView);
+            grades[0] = itemView.findViewById(R.id.textView37)
+            grades[1] = itemView.findViewById(R.id.textView38)
+            grades[2] = itemView.findViewById(R.id.textView39)
+            grades[3] = itemView.findViewById(R.id.textView40)
+            grades[4] = itemView.findViewById(R.id.textView41)
+            grades[5] = itemView.findViewById(R.id.textView42)
+            grades[6] = itemView.findViewById(R.id.textView43)
 
-            cgpa = itemView.findViewById(R.id.textView28);
-            semester = itemView.findViewById(R.id.textView25);
-            expandableLayout = itemView.findViewById(R.id.constraintLayout3);
-            calculategpa = itemView.findViewById(R.id.button20);
-
-            cours[0] = itemView.findViewById(R.id.textView44);
-            cours[1] = itemView.findViewById(R.id.textView31);
-            cours[2] = itemView.findViewById(R.id.textView34);
-            cours[3] = itemView.findViewById(R.id.textView35);
-            cours[4] = itemView.findViewById(R.id.textView36);
-            cours[5] = itemView.findViewById(R.id.textView33);
-            cours[6] = itemView.findViewById(R.id.textView32);
-
-            spins[0]=itemView.findViewById(R.id.spinner5);
-            spins[1]=itemView.findViewById(R.id.spinner6);
-            spins[2]=itemView.findViewById(R.id.spinner7);
-            spins[3]=itemView.findViewById(R.id.spinner8);
-            spins[4]=itemView.findViewById(R.id.spinner9);
-            spins[5]=itemView.findViewById(R.id.spinner10);
-            spins[6]=itemView.findViewById(R.id.spinner11);
-
-            grades[0] = itemView.findViewById(R.id.textView37);
-            grades[1] = itemView.findViewById(R.id.textView38);
-            grades[2] = itemView.findViewById(R.id.textView39);
-            grades[3] = itemView.findViewById(R.id.textView40);
-            grades[4] = itemView.findViewById(R.id.textView41);
-            grades[5] = itemView.findViewById(R.id.textView42);
-            grades[6] = itemView.findViewById(R.id.textView43);
-
-            calculategpa.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                double[] arr = new double[7];
-                double[] cr = {1,3,1,3,3,3,3};
-                    System.out.println(getAdapterPosition());
-                for(int i=0;i<7;i++)
-                {
-                    arr[i] = Double.parseDouble(grades[i].getText().toString());
-                    System.out.println(arr[i]);
-
+            calculategpa.setOnClickListener {
+                val arr = DoubleArray(7)
+                val cr = doubleArrayOf(1.0, 3.0, 1.0, 3.0, 3.0, 3.0, 3.0)
+                println(adapterPosition)
+                for (i in 0..6) {
+                    arr[i] = grades[i]?.getText().toString().toDouble()
+                    println(arr[i])
                 }
-                GPASuggestion x = new GPASuggestion();
+                val x = GPASuggestion()
 
-                double gpa = x.calculate(arr,cr);
+                var gpa = x.calculate(arr, cr)
 
-                gpa = x.calculate(val,val);
-
-                cgpa.setText(""+gpa);
-                }
-            });
+                gpa = x.calculate(value, value)
+                cgpa.text = "" + gpa
+            }
 
 
-            semester.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-//                    TunerModel tuner = tunerlist.get(getAdapterPosition());
+            semester.setOnClickListener { //                    TunerModel tuner = tunerlist.get(getAdapterPosition());
 //                    tuner.setExpanded(!tuner.isExpanded());
 //                    notifyItemChanged(getAdapterPosition());
-                    boolean x = expandede.get(getAdapterPosition());
-                    expandede.set(getAdapterPosition(),!x);
-                    notifyItemChanged(getAdapterPosition());
 
-                }
-            });
-
-
+                val x = expandede[adapterPosition]
+                expandede[adapterPosition] = !x
+                notifyItemChanged(adapterPosition)
+            }
         }
+
     }
+
 }

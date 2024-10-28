@@ -1,109 +1,87 @@
-package com.example.munazam_astudentorganizer.Adapter;
+package com.example.munazam_astudentorganizer.Adapter
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.munazam_astudentorganizer.R
+import java.text.DecimalFormat
 
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+class TunerView : Fragment() {
+    lateinit var recyclerView: RecyclerView
+    lateinit var movieAdapter: TunerAdapter
+    lateinit var root: View
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.munazam_astudentorganizer.R;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-public class TunerView extends Fragment
-{
-    public static TunerView newInstance()
-    {
-        return new TunerView();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
-    RecyclerView recyclerView;
-    TunerAdapter movieAdapter;
-    View root;
-    static int counter = 0;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.tuner_activity, container, false);
+        root = inflater.inflate(R.layout.tuner_activity, container, false)
 
+        //        tuner.add(new TunerModel("1.3","4.0","1","1","1","1","1","1","!"));
 //        tuner.add(new TunerModel("1.3","4.0","1","1","1","1","1","1","!"));
 //        tuner.add(new TunerModel("1.3","4.0","1","1","1","1","1","1","!"));
-//        tuner.add(new TunerModel("1.3","4.0","1","1","1","1","1","1","!"));
-
-        List<Integer> tuner = new ArrayList<Integer>();
-        List<Boolean> expanded = new ArrayList<>();
-        for(int i=1;i<9;i++)
-        {
-            tuner.add(i);
-            expanded.add(true);
+        val tuner: MutableList<Int> = ArrayList()
+        val expanded: MutableList<Boolean> = ArrayList()
+        for (i in 1..8) {
+            tuner.add(i)
+            expanded.add(true)
         }
 
-        recyclerView = root.findViewById(R.id.recyclerView2);
-        movieAdapter = new TunerAdapter(tuner,expanded,root.getContext(),0);
-        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        recyclerView.setAdapter(movieAdapter);
+        recyclerView = root.findViewById(R.id.recyclerView2)
+        movieAdapter = TunerAdapter(tuner, expanded, root.getContext(), 0)
+        recyclerView.setLayoutManager(LinearLayoutManager(root.getContext()))
+        recyclerView.setAdapter(movieAdapter)
 
-        Button B = root.findViewById(R.id.button20);
+        val B = root.findViewById<Button>(R.id.button20)
 
-        B.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openreminder();
-            }
-        });
+        B.setOnClickListener { openreminder() }
 
-        return root;
-
+        return root
     }
-    public void openreminder()
-    {
-        EditText gpax = root.findViewById(R.id.editText8);
-        int counter = 0;
-        DecimalFormat df = new DecimalFormat("0.00");
-        System.out.println("Hello");
-        GPASuggestion x = new GPASuggestion();
-        double gpa = Double.parseDouble(gpax.getText().toString());
-        if(gpa <= 4 && gpa >0 )
-        {
-            double[] result = x.suggest(gpa,movieAdapter.getVal(),3);
 
-            for(int i=0;i<8;i++)
-            {
-                if(result[i*7] != -1 || result[i*7+1] != -1 || result[i*7+2] != -1 || result[i*7+3] != -1 || result[i*7+4] != -1 || result[i*7+5] != -1 || result[i*7+6] != -1)
-                {
-                    counter++;
+    fun openreminder() {
+        val gpax = root!!.findViewById<EditText>(R.id.editText8)
+        var counter = 0
+        val df = DecimalFormat("0.00")
+        println("Hello")
+        val x = GPASuggestion()
+        val gpa = gpax.text.toString().toDouble()
+        if (gpa <= 4 && gpa > 0) {
+            val result = x.suggest(gpa, movieAdapter.value, 3.0)
+
+            for (i in 0..7) {
+                if (result[i * 7] != -1.0 || result[i * 7 + 1] != -1.0 || result[i * 7 + 2] != -1.0 || result[i * 7 + 3] != -1.0 || result[i * 7 + 4] != -1.0 || result[i * 7 + 5] != -1.0 || result[i * 7 + 6] != -1.0) {
+                    counter++
                 }
             }
-            System.out.println("GPAPAPAPAPAAPA"+gpa);
-            movieAdapter.setflag(counter);
-            System.out.println();
-            movieAdapter.setNewval(result);
-            recyclerView.setAdapter(movieAdapter);
+            println("GPAPAPAPAPAAPA$gpa")
+            movieAdapter!!.setflag(counter)
+            println()
+//            TunerAdapter.setNewval(result)
+            recyclerView!!.adapter = movieAdapter
+        } else {
+            Toast.makeText(root!!.context, "Enter a Valid GPA", Toast.LENGTH_SHORT).show()
         }
-        else
-        {
-            Toast.makeText(root.getContext(), "Enter a Valid GPA", Toast.LENGTH_SHORT).show();
-        }
-
-
     }
 
+    companion object {
+        fun newInstance(): TunerView {
+            return TunerView()
+        }
+
+        var counter: Int = 0
+    }
 }

@@ -1,29 +1,22 @@
-package com.example.munazam_astudentorganizer;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
+package com.example.munazam_astudentorganizer
 
-public class MainActivity extends AppCompatActivity {
+import android.content.Intent
+import android.os.Bundle
+import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        getSupportActionBar().hide();
+        supportActionBar!!.hide()
 
-        Handler handler =new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent i  = new Intent(MainActivity.this,Mainmenu.class);
-                startActivity(i);
-                finish();
-            }
-        },4500);
-
+        val handler = Handler()
+        handler.postDelayed({
+            val i = Intent(this@MainActivity, Mainmenu::class.java)
+            startActivity(i)
+            finish()
+        }, 4500)
     }
-
-
 }
