@@ -1,7 +1,6 @@
 package com.example.munazam_astudentorganizer.Adapter;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.munazam_astudentorganizer.Adapter.GPASuggestion;
-import com.example.munazam_astudentorganizer.Adapter.TunerAdapter;
-import com.example.munazam_astudentorganizer.DataModels.PageViewModel;
-import com.example.munazam_astudentorganizer.DataModels.TunerModel;
 import com.example.munazam_astudentorganizer.R;
 
 import java.text.DecimalFormat;
